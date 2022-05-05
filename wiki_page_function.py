@@ -1,3 +1,4 @@
+import time
 import requests
 import concurrent.futures
 
@@ -14,20 +15,10 @@ def get_wiki_page_existence(wiki_page_url, timeout=10):
     return wiki_page_url + " - " + page_status
 
 
-wiki_page_urls = [
-    "https://en.wikipedia.org/wiki/Ocean",
-    "https://en.wikipedia.org/wiki/Island",
-    "https://en.wikipedia.org/wiki/this_page_does_not_exist",
-    "https://en.wikipedia.org/wiki/Shark",
-]
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    futures = []
-    for url in wiki_page_urls:
-        futures.append(
-            executor.submit(get_wiki_page_existence, wiki_page_url=url, timeout=0.00001)
-        )
-    for future in concurrent.futures.as_completed(futures):
-        try:
-            print(future.result())
-        except requests.ConnectTimeout:
-            print("ConnectTimeout.")
+wiki_page_urls = ["https://en.wikipedia.org/wiki/" + str(i) for i in range(50)]
+
+print("Running without threads:")
+without_threads_start = time.time()
+for url in wiki_page_urls:
+    print(get_wiki_page_existence(wiki_page_url=url))
+print("Without threads time:", time.time() - without_threads_start)
