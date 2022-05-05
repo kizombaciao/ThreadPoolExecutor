@@ -1,6 +1,4 @@
-import time
 import requests
-import concurrent.futures
 
 
 def get_wiki_page_existence(wiki_page_url, timeout=10):
@@ -15,10 +13,5 @@ def get_wiki_page_existence(wiki_page_url, timeout=10):
     return wiki_page_url + " - " + page_status
 
 
-wiki_page_urls = ["https://en.wikipedia.org/wiki/" + str(i) for i in range(50)]
-
-print("Running without threads:")
-without_threads_start = time.time()
-for url in wiki_page_urls:
-    print(get_wiki_page_existence(wiki_page_url=url))
-print("Without threads time:", time.time() - without_threads_start)
+url = "https://en.wikipedia.org/wiki/Ocean"
+print(get_wiki_page_existence(wiki_page_url=url))
